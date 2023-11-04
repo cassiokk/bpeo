@@ -1,0 +1,133 @@
+/* Defina estilos gerais para o corpo da página */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f2f2f2;
+    margin: 0;
+    padding: 0;
+}
+
+/* Estilo para o cabeçalho */
+h1 {
+    color: #333;
+}
+
+/* Estilo para formulários */
+form {
+    background-color: #fff;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    max-width: 400px;
+    margin: 0 auto;
+}
+
+label {
+    display: block;
+    margin-bottom: 10px;
+}
+
+input[type="text"],
+input[type="password"],
+select {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+input[type="submit"] {
+    background-color: #007bff;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+/* Estilo para links */
+a {
+    color: #007bff;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+/* Estilo para a tabela de agendamentos */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    border: 1px solid #ddd;
+    background-color: #fff;
+}
+
+th, td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+}
+
+/* Estilo para as linhas pares da tabela */
+tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+/* Estilo para os cabeçalhos da tabela */
+th {
+    background-color: #007bff;
+    color: #fff;
+}
+
+/* Estilo para o link de download */
+a {
+    color: #007bff;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+/* Adicione este código no arquivo css/style.css */
+pre {
+    background-color: #f5f5f5;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    white-space: pre-wrap;
+    font-family: monospace;
+}
+
+/* Adicione este código no arquivo css/style.css */
+
+body {
+    font-family: Arial, sans-serif;
+}
+
+h1 {
+    color: #333;
+}
+
+h2 {
+    font-size: 24px;
+    margin-top: 20px;
+}
+
+pre {
+    background-color: #f5f5f5;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    white-space: pre-wrap;
+    font-family: monospace;
+    font-size: 14px;
+}
+
+pre a {
+    text-decoration: none;
+    color: #0077ff;
+    font-weight: bold;
+}
+
