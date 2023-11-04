@@ -90,10 +90,10 @@
         $quantidade_vagas = $_POST['quantidade_vagas'];
         $linha = $data . ' - ' . $quantidade_vagas;
 
-        $arquivo = file('api/vagas_disponiveis2.txt', FILE_IGNORE_NEW_LINES);
+        $arquivo = file('vagas_disponiveis2.txt', FILE_IGNORE_NEW_LINES);
         if (!in_array($linha, $arquivo)) {
             $arquivo[] = $linha;
-            file_put_contents('api/vagas_disponiveis2.txt', implode(PHP_EOL, $arquivo));
+            file_put_contents('vagas_disponiveis2.txt', implode(PHP_EOL, $arquivo));
         } else {
             echo '<p style="color: red;">A data já existe. Não é possível adicionar datas repetidas.</p>';
         }
@@ -111,7 +111,7 @@
         </thead>
         <tbody>
             <?php
-            $vagas_disponiveis = file('../vagas_disponiveis2.txt', FILE_IGNORE_NEW_LINES);
+            $vagas_disponiveis = file('vagas_disponiveis2.txt', FILE_IGNORE_NEW_LINES);
             if (!empty($vagas_disponiveis)) {
                 foreach ($vagas_disponiveis as $vaga) {
                     list($data, $quantidadeVagas) = explode(' - ', $vaga);
@@ -138,17 +138,17 @@
     <?php
     if (isset($_GET['remover_vaga'])) {
         $vaga_remover = $_GET['remover_vaga'];
-        $arquivo = file('api/vagas_disponiveis2.txt', FILE_IGNORE_NEW_LINES);
+        $arquivo = file('vagas_disponiveis2.txt', FILE_IGNORE_NEW_LINES);
 
         $arquivo = array_filter($arquivo, function ($linha) use ($vaga_remover) {
             return $linha !== $vaga_remover;
         });
 
-        file_put_contents('api/vagas_disponiveis2.txt', implode(PHP_EOL, $arquivo));
+        file_put_contents('vagas_disponiveis2.txt', implode(PHP_EOL, $arquivo));
     }
 
     if (isset($_POST['limpar_vagas'])) {
-        file_put_contents('api/vagas_disponiveis2.txt', ''); // Limpa o arquivo de vagas disponíveis.
+        file_put_contents('vagas_disponiveis2.txt', ''); // Limpa o arquivo de vagas disponíveis.
     }
     ?>
 </body>
