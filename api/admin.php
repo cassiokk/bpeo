@@ -78,7 +78,7 @@
     <!-- Aba de Navegação -->
 <div>
     <a href="admin.php" class="button" style="background-color: #ff5b5b; color: white;">MOTOPATRULHAMENTO 16H ÀS 00H</a>
-    <a href="admin2.php" class="button" style="background-color: #3498db; color: white; text-decoration: none;">RADIOPATRULHAMENTO</a>
+    <a href="admin2.php" class a="button" style="background-color: #3498db; color: white; text-decoration: none;">RADIOPATRULHAMENTO</a>
 </div>
 
 <h2>Adicionar Data e Quantidade de Vagas:</h2>
@@ -97,13 +97,17 @@ if (isset($_POST['adicionar_vagas'])) {
     $linha = $data . ' - ' . $quantidade_vagas;
 
     $arquivo_path = __DIR__ . '/vagas_disponiveis.txt';
-    $arquivo = file($arquivo_path, FILE_IGNORE_NEW_LINES);
+    $arquivo = @file($arquivo_path, FILE_IGNORE_NEW_LINES);
     
-    if (!in_array($linha, $arquivo)) {
-        $arquivo[] = $linha;
-        file_put_contents($arquivo_path, implode(PHP_EOL, $arquivo));
+    if ($arquivo !== false) {
+        if (!in_array($linha, $arquivo)) {
+            $arquivo[] = $linha;
+            file_put_contents($arquivo_path, implode(PHP_EOL, $arquivo));
+        } else {
+            echo '<p style="color: red;">A data já existe. Não é possível adicionar datas repetidas.</p>';
+        }
     } else {
-        echo '<p style="color: red;">A data já existe. Não é possível adicionar datas repetidas.</p>';
+        echo '<p style="color: red;">Erro ao acessar o arquivo de vagas disponíveis.</p>';
     }
 }
 ?>
@@ -119,18 +123,22 @@ if (isset($_POST['adicionar_vagas'])) {
     </thead>
     <tbody>
         <?php
-        $vagas_disponiveis = file($arquivo_path, FILE_IGNORE_NEW_LINES);
-        if (!empty($vagas_disponiveis)) {
-            foreach ($vagas_disponiveis as $vaga) {
-                list($data, $quantidadeVagas) = explode(' - ', $vaga);
-                echo '<tr>';
-                echo '<td>' . $data . '</td>';
-                echo '<td>' . $quantidadeVagas . '</td>';
-                echo '<td><a href="?remover_vaga=' . urlencode($vaga) . '" class="button button-red">Remover</a></td>';
-                echo '</tr>';
+        $vagas_disponiveis = @file($arquivo_path, FILE_IGNORE_NEW_LINES);
+        if ($vagas_disponiveis !== false) {
+            if (!empty($vagas_disponiveis)) {
+                foreach ($vagas_disponiveis as $vaga) {
+                    list($data, $quantidadeVagas) = explode(' - ', $vaga);
+                    echo '<tr>';
+                    echo '<td>' . $data . '</td>';
+                    echo '<td>' . $quantidadeVagas . '</td>';
+                    echo '<td><a href="?remover_vaga=' . urlencode($vaga) . '" class="button button-red">Remover</a></td>';
+                    echo '</tr>';
+                }
+            } else {
+                echo '<tr><td colspan="3">Nenhuma vaga disponível no momento.</td></tr>';
             }
         } else {
-            echo '<tr><td colspan="3">Nenhuma vaga disponível no momento.</td></tr>';
+            echo '<tr><td colspan="3">Erro ao acessar o arquivo de vagas disponíveis.</td></tr>';
         }
         ?>
     </tbody>
@@ -144,13 +152,17 @@ if (isset($_POST['adicionar_vagas'])) {
 <?php
 if (isset($_GET['remover_vaga'])) {
     $vaga_remover = $_GET['remover_vaga'];
-    $arquivo = file($arquivo_path, FILE_IGNORE_NEW_LINES);
+    $arquivo = @file($arquivo_path, FILE_IGNORE_NEW_LINES);
 
-    $arquivo = array_filter($arquivo, function ($linha) use ($vaga_remover) {
-        return $linha !== $vaga_remover;
-    });
+    if ($arquivo !== false) {
+        $arquivo = array_filter($arquivo, function ($linha) use ($vaga_remover) {
+            return $linha !== $vaga_remover;
+        });
 
-    file_put_contents($arquivo_path, implode(PHP_EOL, $arquivo));
+        file_put_contents($arquivo_path, implode(PHP_EOL, $arquivo));
+    } else {
+        echo '<p style="color: red;">Erro ao acessar o arquivo de vagas disponíveis.</p>';
+    }
 }
 
 if (isset($_POST['limpar_vagas'])) {
