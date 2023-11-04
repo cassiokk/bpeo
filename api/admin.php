@@ -96,10 +96,12 @@ if (isset($_POST['adicionar_vagas'])) {
     $quantidade_vagas = $_POST['quantidade_vagas'];
     $linha = $data . ' - ' . $quantidade_vagas;
 
-    $arquivo = file('vagas_disponiveis.txt', FILE_IGNORE_NEW_LINES);
+    $arquivo_path = __DIR__ . '/vagas_disponiveis.txt';
+    $arquivo = file($arquivo_path, FILE_IGNORE_NEW_LINES);
+    
     if (!in_array($linha, $arquivo)) {
         $arquivo[] = $linha;
-        file_put_contents('vagas_disponiveis.txt', implode(PHP_EOL, $arquivo));
+        file_put_contents($arquivo_path, implode(PHP_EOL, $arquivo));
     } else {
         echo '<p style="color: red;">A data já existe. Não é possível adicionar datas repetidas.</p>';
     }
@@ -117,7 +119,7 @@ if (isset($_POST['adicionar_vagas'])) {
     </thead>
     <tbody>
         <?php
-        $vagas_disponiveis = file('vagas_disponiveis.txt', FILE_IGNORE_NEW_LINES);
+        $vagas_disponiveis = file($arquivo_path, FILE_IGNORE_NEW_LINES);
         if (!empty($vagas_disponiveis)) {
             foreach ($vagas_disponiveis as $vaga) {
                 list($data, $quantidadeVagas) = explode(' - ', $vaga);
@@ -134,27 +136,25 @@ if (isset($_POST['adicionar_vagas'])) {
     </tbody>
 </table>
 
-
 <div style="margin-top: 20px;">
     <a href="pagina_relatorio.php" class="button" style="background-color: #ff5b5b; color: white; text-decoration: none;">Relatório MOTOPATRULHAMENTO</a>
-        <a href="excluir_agendamento.php" class="button button-blue" style="color: white; text-decoration: none;">Alguém desistiu do agendamento? clique aqui!</a>
-
+    <a href="excluir_agendamento.php" class="button button-blue" style="color: white; text-decoration: none;">Alguém desistiu do agendamento? clique aqui!</a>
 </div>
 
 <?php
 if (isset($_GET['remover_vaga'])) {
     $vaga_remover = $_GET['remover_vaga'];
-    $arquivo = file('vagas_disponiveis.txt', FILE_IGNORE_NEW_LINES);
+    $arquivo = file($arquivo_path, FILE_IGNORE_NEW_LINES);
 
     $arquivo = array_filter($arquivo, function ($linha) use ($vaga_remover) {
         return $linha !== $vaga_remover;
     });
 
-    file_put_contents('vagas_disponiveis.txt', implode(PHP_EOL, $arquivo));
+    file_put_contents($arquivo_path, implode(PHP_EOL, $arquivo));
 }
 
 if (isset($_POST['limpar_vagas'])) {
-    file_put_contents('vagas_disponiveis.txt', ''); // Limpa o arquivo de vagas disponíveis.
+    file_put_contents($arquivo_path, ''); // Limpa o arquivo de vagas disponíveis.
 }
 ?>
 </body>
